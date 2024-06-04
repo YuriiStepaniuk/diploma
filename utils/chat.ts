@@ -1,1 +1,1 @@
-const CHAT_GPT_API_KEY = 'sk-proj-g9M3Lwk14IpzxYeLgFiZT3BlbkFJ4hp77pmoiQvt1IyCACmw';
+const CHAT_GPT_API_KEY = '*';
