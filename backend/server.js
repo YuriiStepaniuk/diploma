@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const openai = new OpenAI({
-  apiKey: 'sk-proj-Ug7eM2sUAhcpx5J5YzBbT3BlbkFJyKEEw3vQQCNrYAJ3zlmO', // This is also the default, can be omitted
+  apiKey: '*', // This is also the default, can be omitted
 });
 
 app.use(cors()); // Enable CORS
@@ -22,7 +22,7 @@ app.post('/send-message', async (req, res) => {
 
   try {
     const response = await openai.createChatCompletion({
-      model: 'gpt-4', // Specify the model you want to use
+      model: 'gpt-4', 
       messages: [{ role: 'user', content: message }],
     });
 
