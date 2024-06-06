@@ -7,7 +7,12 @@ const ValidationTextInput = (props) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleTextChange = (input) => {
-    setText(input);
+    
+    if (props.onChangeText) {
+      props.onChangeText(input); // Pass the input value to the parent component
+    }
+
+    setText(input)
 
     if (validationMessage) {
       validate(input);

@@ -2,6 +2,7 @@ import { View, Text, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Header from '../components/Header';
 import Choise from '../components/Choise';
+import Footer from '../components/Footer';
 
 const HomeScreen = () => {
   return (
@@ -20,15 +21,16 @@ const HomeScreen = () => {
           <Choise
             text="Start asking any questions"
             toScreen="Chat"
-            pictureName="chat.png"
+            pictureName="chat"
           />
           <Choise
             text="Discover places on real-time map"
             toScreen="Map"
-            pictureName="Map.png"
+            pictureName="Map"
           />
         </View>
       </View>
+      <Footer />
     </View>
   );
 };

@@ -12,9 +12,11 @@ import {
 } from '@react-navigation/native';
 import { PermissionStatus } from 'expo-location';
 import { getMapPreview } from '../utils/location';
+import Footer from './Footer';
 
 const LocationPicker = () => {
   const [pickedLocation, setPickedLocation] = useState();
+  const [isFetchingLocation, setIsFetchingLocation] = useState(false)
 
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
@@ -93,6 +95,7 @@ const LocationPicker = () => {
           Pick on map
         </CustomButton>
       </View>
+      <Footer />
     </View>
   );
 };

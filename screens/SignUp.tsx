@@ -4,11 +4,13 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
 import { useState } from 'react';
 import ValidationTextInput from '../components/ValidationTextInput';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../store/userSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const SignUpScreen = () => {
   const [firstName, setFirstName] = useState();
@@ -16,34 +18,41 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [isFirstNameValid, setIsFirstNameValid] = useState(true);
+  const [isLastNameValid, setIsLastNameValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true);
 
-  const storeUserDataInFirestore = async (uid, userData) => {
-    // try {
-    //   await firestore().collection('users').doc(uid).set(userData);
-    // } catch (error) {
-    //   console.error('Firestore error:', error);
-    // }
+  const dispatch = useDispatch();
+
+  const navigation = useNavigation();
+
+  const validateFields = () => {
+    const firstNameValid = /^[A-Z][a-z]+$/.test(firstName);
+    const lastNameValid = /^[A-Z][a-z]+$/.test(lastName);
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const passwordValid = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+    const confirmPasswordValid = password === confirmPassword;
+
+    setIsFirstNameValid(firstNameValid);
+    setIsLastNameValid(lastNameValid);
+    setIsEmailValid(emailValid);
+    setIsPasswordValid(passwordValid);
+    setIsConfirmPasswordValid(confirmPasswordValid);
+
+    return firstNameValid && lastNameValid && emailValid && passwordValid && confirmPasswordValid;
   };
 
   const onSignUpHandler = async () => {
-    //   try {
-    //     if (password !== confirmPassword) return;
-    //     const userData = {
-    //       firstName,
-    //       lastName,
-    //       email,
-    //       password,
-    //     };
-    //     const userCredential = await auth().createUserWithEmailAndPassword(
-    //       email,
-    //       password
-    //     );
-    //     const uid = userCredential.user.uid;
-    //     await storeUserDataInFirestore(uid, userData);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
+
+    if (!validateFields()) {
+      Alert.alert('Failed to sign up', 'Some fields are filled inappropriately')
+      return;
+    }
+
+    dispatch(setUserData({ name: firstName, surname: lastName }));
+    navigation.navigate('Home');
   };
   return (
     <KeyboardAvoidingView
